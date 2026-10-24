@@ -5,6 +5,8 @@ import android.util.Patterns
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
+import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,7 +29,25 @@ class MainActivity : AppCompatActivity() {
         btnDangKy = findViewById(R.id.btnDangKy)
 
         btnDangKy.setOnClickListener {
-            kiemTraValidation()
+            if (kiemTraValidation()) {
+                val hoTen = edtHoTen.text.toString().trim()
+                val email = edtEmail.text.toString().trim()
+                val sdt = edtSdt.text.toString().trim()
+                val msv = edtMsv.text.toString().trim()
+                val lop = edtLop.text.toString().trim()
+
+                Snackbar.make(findViewById(R.id.mainLayout), "Đăng ký thành công!", Snackbar.LENGTH_LONG)
+                    .setAction("XEM CHI TIẾT") {
+                        val intent = Intent(this, ChiTietActivity::class.java).apply {
+                            putExtra("HO_TEN", hoTen)
+                            putExtra("EMAIL", email)
+                            putExtra("SDT", sdt)
+                            putExtra("MSV", msv)
+                            putExtra("LOP", lop)
+                        }
+                        startActivity(intent)
+                    }.show()
+            }
         }
     }
 
